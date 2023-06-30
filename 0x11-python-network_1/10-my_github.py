@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-"""This script uses the GitHub API to display a GitHub ID based on given credentials.
+"""Uses the GitHub API to display a GitHub ID based on credentials which are given
 Usage: ./10-my_github.py <GitHub username> <GitHub password>
-  - and uses Basic Authentication to access the ID.
+  - Uses Basic Authentication to access the ID.
 """
 import sys
 import requests
