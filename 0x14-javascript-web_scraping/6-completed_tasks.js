@@ -1,26 +1,26 @@
 #!/usr/bin/node
-
 const request = require('request');
-const url = process.argv[2];
-
-request(url, function (err, response, body) {
-  if (err) {
-    console.log(err);
+request.get(process.argv[2], function (error, response, body) {
+  if (error) {
+    console.log(error);
   } else if (response.statusCode === 200) {
-    const completed = {};
-    const tasks = JSON.parse(body);
-    for (const i in tasks) {
-      const task = tasks[i];
-      if (task.completed === true) {
-        if (completed[task.userId] === undefined) {
-          completed[task.userId] = 1;
+    const todos = JSON.parse(body);
+    const completedTasks = {};
+    for (let i = 0; i < todos.length; i++) {
+      const todo = todos[i];
+      if (todo.completed) {
+        if (completedTasks.hasOwnProperty(todo.userId)) {
+          completedTasks[todo.userId] += 1;
         } else {
-          completed[task.userId]++;
+          completedTasks[todo.userId] = 1;
         }
       }
     }
-    console.log(completed);
-  } else {
-    console.log('An error occured. Status code: ' + response.statusCode);
+    for (const userId in completedTasks) {
+      if (completedTasks[userId] === 0) {
+        delete completedTasks[userId];
+      }
+    }
+    console.log(completedTasks);
   }
 });
